@@ -5,7 +5,7 @@ variable "env" {
 
 variable "vpc_name_prefix" {
   description = "prefix for establishing uniqueness between VPCs in same account"
-  default     = "main"
+  default     = "taccoform"
 }
 
 variable "vpc_name" {
@@ -15,8 +15,6 @@ variable "vpc_name" {
 
 
 locals {
-  nat_instance_name = "nat-instance-${local.vpc_name}"
-  vpc_name          = var.vpc_name != "" ? var.vpc_name : "${var.vpc_name_prefix}-${var.env}"
 
   common_tags = {
     environment = var.env
