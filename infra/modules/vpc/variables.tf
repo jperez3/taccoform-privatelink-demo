@@ -17,8 +17,8 @@ variable "vpc_name" {
 locals {
 
   common_tags = {
-    environment = var.env
-    managed-by  = "terraform"
-    vpc-name    = local.vpc_name
+    Environment = var.env
+    Managed-By  = "terraform"
+    VPC-Name    = local.vpc_name
   }
 }

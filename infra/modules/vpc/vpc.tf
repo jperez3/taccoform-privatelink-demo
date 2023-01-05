@@ -86,7 +86,8 @@ resource "aws_route_table" "private" {
 
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_instance.nat[count.index].primary_network_interface_id
+    # network_interface_id = aws_instance.nat[count.index].primary_network_interface_id
+    instance_id = aws_instance.nat[count.index].id
   }
 
 
@@ -137,4 +138,33 @@ output "public_subnet_ids" {
 
 output "vpc_id" {
   value = aws_vpc.main.id
+}
+
+
+###############
+# Privatelink #
+###############
+
+resource "aws_subnet" "privatelink" {
+  count = var.enable_privatelink ? length(data.aws_availability_zones.available.names) : 0
+
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = local.privatelink_subnets[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
+
+  tags = merge(
+    local.common_tags,
+    tomap({
+      "Name"         = "privatelink${count.index}-${local.vpc_name}"
+      "NetworkType" = "privatelink"
+    })
+  )
+}
+
+resource "aws_route_table_association" "privatelink" {
+  count = var.enable_privatelink ? length(aws_subnet.privatelink[*].id) : 0
+
+  subnet_id      = aws_subnet.privatelink[count.index].id
+  route_table_id = aws_route_table.private[count.index].id
 }

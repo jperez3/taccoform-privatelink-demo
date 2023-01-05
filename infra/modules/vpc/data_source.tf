@@ -15,3 +15,7 @@ data "aws_ami" "amazon_linux_2" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+
+data "aws_route53_zone" "public" {
+  name         = "${var.public_domain_name}."
+}
