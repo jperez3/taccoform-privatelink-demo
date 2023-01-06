@@ -1,12 +1,12 @@
-# terraform {
-#   backend "remote" {
-#     organization = "ordisius"
+terraform {
+  backend "remote" {
+    organization = "ordisius"
 
-#     workspaces {
-#       name = "taccoform-privatelink-tostada"
-#     }
-#   }
-# }
+    workspaces {
+      name = "taccoform-privatelink-tostada"
+    }
+  }
+}
 
 terraform {
   required_providers {

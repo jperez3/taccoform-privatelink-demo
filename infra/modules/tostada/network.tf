@@ -36,3 +36,12 @@ resource "aws_lb_target_group_attachment" "tostada" {
   target_id        = aws_instance.tostada.id
   port             = 80
 }
+
+
+resource "aws_route53_record" "lb_cname" {
+  zone_id = data.aws_route53_zone.private.zone_id
+  name    = "tostada.${local.private_domain_name}"
+  type    = "CNAME"
+  ttl     = 300
+  records = [aws_lb.tostada.dns_name]
+}

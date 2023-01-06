@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "cert" {
-  domain_name       = "*.${local.vpc_name}.${var.public_domain_name}"
+  domain_name       = "*.${local.dns_zone}"
   validation_method = "DNS"
 
   tags = {

@@ -13,6 +13,7 @@ variable "enable_privatelink" {
 locals {
   nat_instance_name = "nat-instance-${local.vpc_name}"
   vpc_name          = var.vpc_name != "" ? var.vpc_name : "${var.vpc_name_prefix}-${var.env}"
+  dns_zone          = "${local.vpc_name}.${var.public_domain_name}"
 
   # Creates a 10.x.0.0/16 CIDR block if one isn't provided
   cidr_block = var.cidr_block != "" ? var.cidr_block : "10.123.0.0/16"

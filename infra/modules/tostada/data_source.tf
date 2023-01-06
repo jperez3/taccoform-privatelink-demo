@@ -31,6 +31,11 @@ data "aws_subnets" "service_provider_private" {
 }
 
 data "aws_acm_certificate" "issued" {
-  domain   = "*.${local.vpc_name}.${var.public_domain_name}"
+  domain   = "*.${local.private_domain_name}"
   statuses = ["ISSUED"]
+}
+
+data "aws_route53_zone" "private" {
+  name         = "${local.private_domain_name}."
+  private_zone = true
 }
