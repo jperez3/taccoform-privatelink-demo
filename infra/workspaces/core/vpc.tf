@@ -21,3 +21,5 @@ module "vpc" {
   enable_privatelink      = each.value.enable_privatelink
   vpc_name                = each.value.vpc_name
 }
+
+# av aws-connect -n jumpbox0-consumer-prod -r us-east-2

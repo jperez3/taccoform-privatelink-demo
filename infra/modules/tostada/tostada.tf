@@ -1,23 +1,23 @@
 resource "aws_security_group" "tostada" {
 
-  name        = "tostada-${local.vpc_name}"
-  description = "${local.vpc_name} tostada security group"
+  name        = "tostada-${local.provider_vpc_name}"
+  description = "${local.provider_vpc_name} tostada security group"
   vpc_id      = data.aws_vpc.service_provider.id
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = [data.aws_vpc.service_provider.cidr_block]
+    description = "TLS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.service_provider.cidr_block]
   }
 
   ingress {
-    description      = "HTTP from VPC"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = [data.aws_vpc.service_provider.cidr_block]
+    description = "HTTP from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.service_provider.cidr_block]
   }
 
   egress {
@@ -30,7 +30,7 @@ resource "aws_security_group" "tostada" {
   tags = merge(
     local.common_tags,
     tomap({
-      "Name" = "tostada-${local.vpc_name}"
+      "Name" = "tostada-${local.provider_vpc_name}"
     })
   )
 }
@@ -46,7 +46,7 @@ resource "aws_instance" "tostada" {
   tags = merge(
     local.common_tags,
     tomap({
-      "Name" = "tostada-${local.vpc_name}"
+      "Name" = "tostada-${local.provider_vpc_name}"
     })
   )
 }
