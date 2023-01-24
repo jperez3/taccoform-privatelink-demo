@@ -30,23 +30,7 @@ data "aws_subnets" "service_provider_private" {
   }
 }
 
-data "aws_vpc" "service_consumer" {
-  filter {
-    name   = "tag:Name"
-    values = [local.consumer_vpc_name]
-  }
-}
 
-data "aws_subnets" "service_consumer_private" {
-  filter {
-    name   = "tag:NetworkType"
-    values = ["private"]
-  }
-  filter {
-    name   = "tag:VPC-Name"
-    values = [local.consumer_vpc_name]
-  }
-}
 
 data "aws_acm_certificate" "issued" {
   domain   = "*.${local.private_domain_name}"
