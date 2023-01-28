@@ -12,39 +12,21 @@ data "aws_ami" "amazon_linux_2" {
   }
 }
 
-data "aws_vpc" "service_provider" {
+data "aws_vpc" "selected" {
   filter {
-    name   = "tag:Name"
-    values = [local.provider_vpc_name]
+    name   = "tag:VPC-Name"
+    values = [local.vpc_name]
   }
 }
 
-data "aws_subnets" "service_provider_private" {
+data "aws_subnets" "private" {
   filter {
     name   = "tag:NetworkType"
     values = ["private"]
   }
   filter {
     name   = "tag:VPC-Name"
-    values = [local.provider_vpc_name]
-  }
-}
-
-data "aws_vpc" "service_consumer" {
-  filter {
-    name   = "tag:Name"
-    values = [local.consumer_vpc_name]
-  }
-}
-
-data "aws_subnets" "service_consumer_private" {
-  filter {
-    name   = "tag:NetworkType"
-    values = ["private"]
-  }
-  filter {
-    name   = "tag:VPC-Name"
-    values = [local.consumer_vpc_name]
+    values = [local.vpc_name]
   }
 }
 

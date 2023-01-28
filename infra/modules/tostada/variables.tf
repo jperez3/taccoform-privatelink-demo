@@ -5,9 +5,9 @@ variable "env" {
 }
 
 variable "public_domain_name" {
-  description = "domain name used for certificate creation"
-  default     = "tacoform.com"
-  type        = string
+    description = "domain name used for certificate creation"
+    default     = "tacoform.com"
+    type        = string
 }
 
 variable "vpc_name" {
@@ -22,13 +22,12 @@ variable "allowed_aws_accounts_list" {
 }
 
 locals {
-  provider_vpc_name   = var.vpc_name == "" ? "provider-${var.env}" : var.vpc_name
-  consumer_vpc_name   = var.vpc_name == "" ? "consumer-${var.env}" : var.vpc_name
-  private_domain_name = "${local.provider_vpc_name}.${var.public_domain_name}"
+  vpc_name = var.vpc_name == "" ? "provider-${var.env}" : var.vpc_name
+  private_domain_name = "${local.vpc_name}.${var.public_domain_name}"
 
   common_tags = {
     Environment = var.env
     Managed-By  = "terraform"
-    VPC-Name    = local.provider_vpc_name
+    VPC-Name    = local.vpc_name
   }
 }
