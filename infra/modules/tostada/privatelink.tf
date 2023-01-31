@@ -65,19 +65,12 @@ resource "aws_lb_target_group" "privatelink" {
   target_type = "alb"
   vpc_id      = data.aws_vpc.selected.id
 
-  # health_check {
-  #   path     = "/"
-  #   port     = "443"
-  #   protocol = "HTTPS"
-  # }
-}
-
-resource "aws_lb_target_group_attachment" "privatelink" {
-  port             = 443
-  target_group_arn = aws_lb_target_group.privatelink.arn
-  target_id        = aws_lb.tostada.arn
-
-  depends_on = [aws_lb_target_group.privatelink]
+  health_check {
+    matcher  = "200"
+    path     = "/"
+    port     = "443"
+    protocol = "HTTPS"
+  }
 }
 
 resource "aws_lb_listener" "privatelink" {
@@ -89,6 +82,12 @@ resource "aws_lb_listener" "privatelink" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.privatelink.arn
   }
+}
+
+resource "aws_lb_target_group_attachment" "privatelink" {
+  port             = aws_lb_listener.privatelink.port # https://github.com/hashicorp/terraform-provider-aws/issues/21558
+  target_group_arn = aws_lb_target_group.privatelink.arn
+  target_id        = aws_lb.tostada.arn
 }
 
 

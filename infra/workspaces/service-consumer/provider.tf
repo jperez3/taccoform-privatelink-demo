@@ -3,7 +3,7 @@ terraform {
     organization = "ordisius"
 
     workspaces {
-      name = "taccoform-privatelink-tostada"
+      name = "taccoform-privatelink-consumer"
     }
   }
 }
@@ -24,7 +24,6 @@ provider "aws" {
  default_tags {
    tags = {
      Environment = "prod"
-     Service     = "tostada"
    }
  }
 }
